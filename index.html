@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101010">
+    <title>ゴルフクラブ外部相場査定</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">External Market Appraisal</p>
+          <h1>ゴルフクラブ外部相場査定</h1>
+          <p class="app-meta"><span id="versionLabel">v1.8.0</span><span id="storageStatus">保存確認中</span><span id="offlineStatus">オフライン準備中</span><span id="importStatus">CSV未読込</span></p>
+        </div>
+        <div class="top-actions">
+          <button id="exportCsvButton" type="button">CSV出力</button>
+          <label class="file-button">
+            <span>CSV読込</span>
+            <input id="csvInput" type="file" accept=".csv,text/csv">
+          </label>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="search-panel" aria-label="外部相場検索">
+          <div class="search-row external-search">
+            <input id="searchInput" type="search" placeholder="クラブ名、シャフト、番手を入力して外部相場を確認">
+            <select id="categoryFilter" aria-label="種類">
+              <option value="">全種類</option>
+              <option value="ドライバー">ドライバー</option>
+              <option value="フェアウェイウッド">フェアウェイウッド</option>
+              <option value="ユーティリティ">ユーティリティ</option>
+              <option value="単品アイアン">単品アイアン</option>
+              <option value="アイアンセット">アイアンセット</option>
+              <option value="ウェッジ">ウェッジ</option>
+              <option value="パター">パター</option>
+            </select>
+            <select id="conditionFilter" class="internal-control" aria-label="状態">
+              <option value="B">標準B相場</option>
+              <option value="S">美品S相場</option>
+              <option value="A">良品A相場</option>
+              <option value="C">傷ありC相場</option>
+            </select>
+            <select id="qualityFilter" class="internal-control" aria-label="データ確認">
+              <option value="">全データ</option>
+              <option value="issues">要確認のみ</option>
+              <option value="clean">確認済みのみ</option>
+              <option value="old">更新日が古い</option>
+              <option value="sample">内蔵サンプル</option>
+            </select>
+            <select id="sortSelect" class="internal-control" aria-label="並び順">
+              <option value="maker">メーカー順</option>
+              <option value="saleDesc">店頭相場 高い順</option>
+              <option value="saleAsc">店頭相場 安い順</option>
+              <option value="buyDesc">買取目安 高い順</option>
+              <option value="marginDesc">粗利率 高い順</option>
+              <option value="updatedAsc">更新日 古い順</option>
+              <option value="updatedDesc">更新日 新しい順</option>
+            </select>
+            <label class="inline-filter internal-control">最低粗利率<input id="minMarginInput" type="number" min="0" max="100" step="1" placeholder="例 25"></label>
+          </div>
+
+          <section class="external-panel external-primary" aria-label="外部相場確認">
+            <div class="external-head">
+              <div>
+                <h2>外部相場確認</h2>
+                <p>外部サイトで売れている価格を確認し、確認価格を入力して査定します。</p>
+              </div>
+              <span>自動取得ではなく確認登録</span>
+            </div>
+            <label>検索キーワード<input id="externalKeywordInput" type="text" placeholder="例: PING G430 ドライバー TOUR 2.0 S"></label>
+            <div class="external-links">
+              <button id="openYahooSoldButton" type="button">ヤフオク落札</button>
+              <button id="openRakutenButton" type="button">楽天市場</button>
+              <button id="openMercariButton" type="button">メルカリ</button>
+              <button id="openKakakuButton" type="button">価格.com</button>
+              <button id="openGoogleButton" type="button">Google</button>
+            </div>
+            <div class="external-grid">
+              <label>確認価格<input id="externalSaleInput" type="number" min="0" step="100" placeholder="例 74800"></label>
+              <label>買取目安<input id="externalBuyInput" type="number" min="0" step="100" placeholder="未入力なら60%"></label>
+              <label>根拠サイト<select id="externalSourceSelect">
+                <option value="Yahoo!オークション落札確認">Yahoo!オークション落札確認</option>
+                <option value="楽天市場確認">楽天市場確認</option>
+                <option value="メルカリ確認">メルカリ確認</option>
+                <option value="価格.com確認">価格.com確認</option>
+                <option value="Google相場確認">Google相場確認</option>
+                <option value="その他相場確認">その他相場確認</option>
+              </select></label>
+            </div>
+            <label>確認メモ<textarea id="externalMemoInput" rows="3" placeholder="売り切れ/販売中、状態、送料込み/別、確認件数など"></textarea></label>
+            <div class="external-actions">
+              <button id="applyExternalMarketButton" type="button">確認価格で査定・登録欄へ反映</button>
+            </div>
+            <p id="externalStatus" class="external-status">検索キーワードを入力し、外部サイトで価格を確認してください。</p>
+          </section>
+
+          <div class="stats-grid internal-control" aria-label="相場サマリー">
+            <div class="stat">
+              <span>表示件数</span>
+              <strong id="resultCount">0件</strong>
+            </div>
+            <div class="stat">
+              <span>平均店頭相場</span>
+              <strong id="avgSale">0円</strong>
+            </div>
+            <div class="stat">
+              <span>平均買取目安</span>
+              <strong id="avgBuy">0円</strong>
+            </div>
+            <div class="stat">
+              <span>最高相場</span>
+              <strong id="maxSale">0円</strong>
+            </div>
+            <div class="stat">
+              <span>要確認データ</span>
+              <strong id="dataQuality">0件</strong>
+            </div>
+            <div class="stat">
+              <span>平均粗利率</span>
+              <strong id="avgMargin">0%</strong>
+            </div>
+          </div>
+
+          <div id="categoryChips" class="chips internal-control" aria-label="カテゴリ別件数"></div>
+          <div class="audit-panel internal-control" aria-label="データ監査">
+            <div class="audit-head">
+              <h2>データ監査</h2>
+              <span>根拠、更新日、粗利を確認</span>
+            </div>
+            <div id="auditSummary" class="audit-summary"></div>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="table-panel" aria-label="登録済み外部確認データ">
+            <div class="panel-head">
+              <h2>登録済みの確認データ</h2>
+              <span id="updatedLabel">最終更新: 未設定</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>クラブ</th>
+                    <th>種類</th>
+                    <th>年式</th>
+                    <th>店頭相場</th>
+                    <th>買取目安</th>
+                    <th>粗利率</th>
+                    <th>確認</th>
+                  </tr>
+                </thead>
+                <tbody id="marketTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="detail-panel" aria-label="選択クラブ詳細">
+            <div class="detail-card">
+              <span id="selectedCategory" class="pill">未選択</span>
+              <h2 id="selectedName">外部相場を確認してください</h2>
+              <p id="selectedSpec">検索キーワードを入力し、外部サイトで確認した価格を登録します。</p>
+
+              <div class="price-boxes">
+                <div>
+                  <span>店頭相場</span>
+                  <strong id="selectedSale">0円</strong>
+                </div>
+                <div>
+                  <span>買取目安</span>
+                  <strong id="selectedBuy">0円</strong>
+                </div>
+              </div>
+
+              <div class="range-block">
+                <div class="range-row">
+                  <span>安値</span>
+                  <strong id="selectedLow">0円</strong>
+                </div>
+                <div class="meter">
+                  <span id="meterFill"></span>
+                </div>
+                <div class="range-row">
+                  <span>高値</span>
+                  <strong id="selectedHigh">0円</strong>
+                </div>
+              </div>
+
+              <div class="memo-box">
+                <span>相場メモ</span>
+                <p id="selectedMemo">検索条件を変えると、状態別の相場に切り替わります。</p>
+              </div>
+
+              <div class="source-grid">
+                <div>
+                  <span>根拠</span>
+                  <strong id="selectedSource">未設定</strong>
+                </div>
+                <div>
+                  <span>更新日</span>
+                  <strong id="selectedUpdatedAt">未設定</strong>
+                </div>
+                <div>
+                  <span>信頼度</span>
+                  <strong id="selectedConfidence">未設定</strong>
+                </div>
+              </div>
+
+              <div id="selectedRiskBox" class="risk-box is-warning">
+                <span id="selectedRiskLabel">査定前確認が必要</span>
+                <p id="selectedRiskText">根拠、更新日、信頼度を確認してください。</p>
+              </div>
+
+              <button id="copyButton" type="button">相場メモをコピー</button>
+            </div>
+
+            <div class="mini-panel">
+              <h3>運用メモ</h3>
+              <p>このアプリは、外部サイトで人が確認した価格だけを登録して査定に使います。</p>
+            </div>
+
+            <section class="proposal-panel" aria-label="査定価格提案">
+              <h3>査定・価格提案</h3>
+              <div class="proposal-grid">
+                <label>査定日<input id="appraisalDateInput" type="date"></label>
+                <label>担当者<input id="staffNameInput" type="text" placeholder="担当者名"></label>
+                <label>お客様名<input id="customerNameInput" type="text" placeholder="任意"></label>
+                <label>対応状況<select id="dealStatusInput">
+                  <option value="見積">見積</option>
+                  <option value="買取成立">買取成立</option>
+                  <option value="保留">保留</option>
+                  <option value="見送り">見送り</option>
+                </select></label>
+                <label>状態ランク<select id="proposalCondition">
+                  <option value="S">S 美品</option>
+                  <option value="A">A 良品</option>
+                  <option value="B" selected>B 標準</option>
+                  <option value="C">C 傷あり</option>
+                  <option value="D">D 難あり</option>
+                </select></label>
+                <label>在庫回転<select id="proposalStock">
+                  <option value="fast">早い</option>
+                  <option value="normal" selected>標準</option>
+                  <option value="slow">遅い</option>
+                </select></label>
+                <label>付属品<select id="proposalAccessories">
+                  <option value="full">完備</option>
+                  <option value="normal" selected>標準</option>
+                  <option value="missing">不足</option>
+                </select></label>
+                <label>目標粗利率<input id="targetMarginInput" type="number" min="5" max="80" step="1" value="35"></label>
+                <label>整備費<input id="repairCostInput" type="number" min="0" step="100" value="0"></label>
+              </div>
+              <div class="proposal-results">
+                <div>
+                  <span>販売提案</span>
+                  <strong id="proposalSale">0円</strong>
+                </div>
+                <div>
+                  <span>買取上限</span>
+                  <strong id="proposalBuyMax">0円</strong>
+                </div>
+                <div>
+                  <span>想定粗利</span>
+                  <strong id="proposalProfit">0円</strong>
+                </div>
+                <div>
+                  <span>粗利率</span>
+                  <strong id="proposalMargin">0%</strong>
+                </div>
+              </div>
+              <p id="proposalAdvice" class="proposal-advice"></p>
+              <div class="proposal-actions">
+                <button id="saveAppraisalButton" type="button">履歴に保存</button>
+                <button id="copyProposalButton" type="button">提案をコピー</button>
+                <button id="printAppraisalButton" type="button">査定票印刷</button>
+              </div>
+            </section>
+
+            <form id="editForm" class="edit-panel">
+              <h3>確認データ登録</h3>
+              <div class="edit-grid">
+                <label>メーカー<input id="editMaker" type="text" required></label>
+                <label>モデル<input id="editModel" type="text" required></label>
+                <label>種類<select id="editCategory" required>
+                  <option value="ドライバー">ドライバー</option>
+                  <option value="フェアウェイウッド">フェアウェイウッド</option>
+                  <option value="ユーティリティ">ユーティリティ</option>
+                  <option value="単品アイアン">単品アイアン</option>
+                  <option value="アイアンセット">アイアンセット</option>
+                  <option value="ウェッジ">ウェッジ</option>
+                  <option value="パター">パター</option>
+                </select></label>
+                <label>年式<input id="editYear" type="number" min="1900" max="2100"></label>
+                <label>ロフト/番手<input id="editLoft" type="text"></label>
+                <label>シャフト<input id="editShaft" type="text"></label>
+                <label>フレックス<input id="editFlex" type="text"></label>
+                <label>店頭相場<input id="editSale" type="number" min="0" step="100" required></label>
+                <label>買取目安<input id="editBuy" type="number" min="0" step="100" required></label>
+                <label>根拠<input id="editSource" type="text" placeholder="販売実績、買取実績、外部相場など"></label>
+                <label>更新日<input id="editUpdatedAt" type="date"></label>
+                <label>信頼度<select id="editConfidence">
+                  <option value="実績">実績</option>
+                  <option value="相場確認">相場確認</option>
+                  <option value="参考">参考</option>
+                  <option value="要確認">要確認</option>
+                </select></label>
+              </div>
+              <label>メモ<textarea id="editMemo" rows="3"></textarea></label>
+              <p id="validationMessage" class="validation-message"></p>
+              <div class="edit-actions">
+                <button id="saveRecordButton" type="submit">保存</button>
+                <button id="newRecordButton" type="button">新規</button>
+              </div>
+            </form>
+
+            <section class="history-panel" aria-label="査定履歴">
+              <div class="history-head">
+                <h3>査定履歴</h3>
+                <div>
+                  <button id="exportHistoryButton" type="button">履歴CSV</button>
+                  <button id="clearHistoryButton" type="button" class="danger-button">履歴クリア</button>
+                </div>
+              </div>
+              <div class="history-list" id="historyList"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <section id="printSheet" class="print-sheet" aria-label="印刷用査定票"></section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
