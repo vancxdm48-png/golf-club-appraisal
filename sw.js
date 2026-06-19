@@ -5,7 +5,7 @@ const APP_SHELL = [
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./icon.svg",
+  "./icon.png",
   "./data/import-template.csv"
 ];
 
