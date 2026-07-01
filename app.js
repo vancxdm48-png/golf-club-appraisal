@@ -16,7 +16,7 @@
       if (!response.ok) throw new Error("Failed to load " + file + ": " + response.status);
       return response.text();
     }));
-    (0, eval)(parts.join("\n"));
+    (0, eval)(parts.join(""));
   } catch (error) {
     console.error(error);
     document.body.insertAdjacentHTML("afterbegin", "<div style=\"padding:16px;background:#fee2e2;color:#7f1d1d;font-weight:700;\">アプリの読み込みに失敗しました。ページを再読み込みしてください。</div>");
