@@ -1,4 +1,4 @@
-const CACHE_NAME = "used-golf-market-v1.8.0";
+const CACHE_NAME = "used-golf-market-v1.10.2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,16 @@ const APP_SHELL = [
   "./app.js",
   "./manifest.webmanifest",
   "./icon.png",
-  "./data/import-template.csv"
+  "./data/import-template.csv",
+  "./app-chunks/app.001.js",
+  "./app-chunks/app.002.js",
+  "./app-chunks/app.003.js",
+  "./app-chunks/app.004.js",
+  "./app-chunks/app.005.js",
+  "./app-chunks/app.006.js",
+  "./app-chunks/app.007.js",
+  "./app-chunks/app.008.js",
+  "./app-chunks/app.009.js"
 ];
 
 self.addEventListener("install", (event) => {

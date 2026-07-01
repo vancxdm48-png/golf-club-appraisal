@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#101010">
+    <meta name="theme-color" content="#0b1f3a">
     <title>ゴルフクラブ外部相場査定</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="icon.png" type="image/png">
@@ -15,18 +15,64 @@
         <div>
           <p class="eyebrow">External Market Appraisal</p>
           <h1>ゴルフクラブ外部相場査定</h1>
-          <p class="app-meta"><span id="versionLabel">v1.8.0</span><span id="storageStatus">保存確認中</span><span id="offlineStatus">オフライン準備中</span><span id="importStatus">CSV未読込</span></p>
+          <p class="app-meta"><span id="versionLabel">v1.10.2</span><span id="storageStatus">保存確認中</span><span id="offlineStatus">オフライン準備中</span><span id="importStatus">データ未読込</span></p>
         </div>
         <div class="top-actions">
-          <button id="exportCsvButton" type="button">CSV出力</button>
+          <button id="exportCsvButton" type="button">データ書き出し</button>
           <label class="file-button">
-            <span>CSV読込</span>
+            <span>データ読み込み</span>
             <input id="csvInput" type="file" accept=".csv,text/csv">
           </label>
         </div>
       </header>
 
       <main class="workspace">
+        <section class="hero-panel" aria-label="相場査定">
+          <div class="hero-copy">
+            <p class="eyebrow">Market Appraisal</p>
+            <h2>中古クラブの今の相場を、店頭で素早く確認</h2>
+            <p>登録データ、外部確認リンク、査定履歴をまとめて確認できます。まずは査定ボタンで入力と価格提案の流れを確認できます。</p>
+            <div class="hero-actions">
+              <button id="demoAppraiseButton" type="button">査定してみる</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="data-section-title" aria-label="登録データまとめ">
+          <div>
+            <p class="eyebrow">Stored Market Data</p>
+            <h2>登録済みデータ</h2>
+          </div>
+          <span>現在相場サンプル100件以上・カテゴリ別データ・確認データ一覧</span>
+        </section>
+
+        <section class="overview-grid" aria-label="登録データ概要">
+          <div class="overview-card">
+            <span>現在相場サンプル</span>
+            <strong id="overviewTotal">0件</strong>
+          </div>
+          <div class="overview-card">
+            <span>平均店頭相場</span>
+            <strong id="overviewAvgSale">0円</strong>
+          </div>
+          <div class="overview-card">
+            <span>最高相場</span>
+            <strong id="overviewMaxSale">0円</strong>
+          </div>
+          <div class="overview-card">
+            <span>アイアンセット</span>
+            <strong id="overviewIronSets">0件</strong>
+          </div>
+        </section>
+
+        <section class="chart-panel" aria-label="カテゴリ別登録数">
+          <div class="panel-head compact-head">
+            <h2>カテゴリ別データ</h2>
+            <span>開いた瞬間に全体量を確認</span>
+          </div>
+          <div id="categoryBars" class="category-bars"></div>
+        </section>
+
         <section class="search-panel" aria-label="外部相場検索">
           <div class="search-row external-search">
             <input id="searchInput" type="search" placeholder="クラブ名、シャフト、番手を入力して外部相場を確認">
@@ -39,6 +85,8 @@
               <option value="アイアンセット">アイアンセット</option>
               <option value="ウェッジ">ウェッジ</option>
               <option value="パター">パター</option>
+              <option value="シャフト">シャフト</option>
+              <option value="ヘッドのみ">ヘッドのみ</option>
             </select>
             <select id="conditionFilter" class="internal-control" aria-label="状態">
               <option value="B">標準B相場</option>
@@ -75,11 +123,11 @@
             </div>
             <label>検索キーワード<input id="externalKeywordInput" type="text" placeholder="例: PING G430 ドライバー TOUR 2.0 S"></label>
             <div class="external-links">
-              <button id="openYahooSoldButton" type="button">ヤフオク落札</button>
-              <button id="openRakutenButton" type="button">楽天市場</button>
-              <button id="openMercariButton" type="button">メルカリ</button>
-              <button id="openKakakuButton" type="button">価格.com</button>
-              <button id="openGoogleButton" type="button">Google</button>
+              <button id="openYahooSoldButton" class="market-card is-yahoo" type="button">ヤフオク</button>
+              <button id="openRakutenButton" class="market-card is-rakuten" type="button">楽天市場</button>
+              <button id="openMercariButton" class="market-card is-mercari" type="button">メルカリ</button>
+              <button id="openKakakuButton" class="market-card is-kakaku" type="button">価格.com</button>
+              <button id="openGoogleButton" class="market-card is-google" type="button"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></button>
             </div>
             <div class="external-grid">
               <label>確認価格<input id="externalSaleInput" type="number" min="0" step="100" placeholder="例 74800"></label>
@@ -143,6 +191,7 @@
               <h2>登録済みの確認データ</h2>
               <span id="updatedLabel">最終更新: 未設定</span>
             </div>
+            <div id="tableCategoryTabs" class="table-tabs" aria-label="登録データの種類切り替え"></div>
             <div class="table-wrap">
               <table>
                 <thead>
@@ -296,6 +345,8 @@
                   <option value="アイアンセット">アイアンセット</option>
                   <option value="ウェッジ">ウェッジ</option>
                   <option value="パター">パター</option>
+                  <option value="シャフト">シャフト</option>
+                  <option value="ヘッドのみ">ヘッドのみ</option>
                 </select></label>
                 <label>年式<input id="editYear" type="number" min="1900" max="2100"></label>
                 <label>ロフト/番手<input id="editLoft" type="text"></label>
@@ -324,7 +375,7 @@
               <div class="history-head">
                 <h3>査定履歴</h3>
                 <div>
-                  <button id="exportHistoryButton" type="button">履歴CSV</button>
+                  <button id="exportHistoryButton" type="button">履歴書き出し</button>
                   <button id="clearHistoryButton" type="button" class="danger-button">履歴クリア</button>
                 </div>
               </div>
