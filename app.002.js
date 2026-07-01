@@ -1,4 +1,4 @@
-ー、状態を細かく確認。" },
+er: "Scotty Cameron", model: "PHANTOM X 5.5", category: "パター", year: 2021, loft: "34inch", shaft: "Steel", flex: "-", sale: 45800, buy: 28000, memo: "高額帯。保証書、カバー、状態を細かく確認。" },
   { maker: "Scotty Cameron", model: "SUPER SELECT NEWPORT 2", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 54800, buy: 34000, memo: "人気が強い。偽物対策と付属品確認が必須。" },
   { maker: "TaylorMade", model: "Spider GTX", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 19800, buy: 10800, memo: "大型マレット需要。塗装状態を確認。" },
   { maker: "PING", model: "2023 ANSER", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 19800, buy: 11200, memo: "定番形状。長さとグリップ状態を確認。" }
@@ -75,6 +75,4 @@ const extraIronSetData = [
   { maker: "TaylorMade", model: "SIM2 MAX", category: "アイアンセット", year: 2021, loft: "5本セット", shaft: "TENSEI BLUE TM60", flex: "S", sale: 42800, buy: 23500, memo: "初心者から中級者向け。価格訴求で動かしやすい。" },
   { maker: "TaylorMade", model: "Qi IRON", category: "アイアンセット", year: 2024, loft: "5本セット", shaft: "Diamana BLUE TM60", flex: "S", sale: 79800, buy: 47000, memo: "高年式の飛び系。カーボン仕様は軽量需要あり。" },
   { maker: "Callaway", model: "ROGUE ST MAX FAST", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "SPEEDER NX 40 for Callaway", flex: "R", sale: 54800, buy: 31500, memo: "軽量モデル。シニア層向けの需要が強い。" },
-  { maker: "Callaway", model: "MAVRIK MAX", category: "アイアンセット", year: 2020, loft: "5本セット", shaft: "Diamana 50 for Callaway", flex: "S", sale: 39800, buy: 21500, memo: "価格帯が合えば初心者向けに出しやすい。" },
-  { maker: "Callaway", model: "X FORGED STAR 2021", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 59800, buy: 35000, memo: "軟鉄飛び系。打痕とメッキ状態を確認。" },
-  { maker: "Callaway", model: "APEX 21", category: "アイアンセット", year:
+  { maker: "Callaway", model: "MAVRIK MAX", category: "アイアンセット", year: 2020, loft: "5本セッ

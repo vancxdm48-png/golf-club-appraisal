@@ -1,4 +1,61 @@
-getItem(HISTORY_STORAGE_KEY) || "[]");
+.maker || "").trim(),
+    model: String(club.model || "").trim(),
+    category: String(club.category || "").trim(),
+    year: Number(club.year || 0),
+    loft: String(club.loft || "").trim(),
+    shaft: String(club.shaft || "").trim(),
+    flex: String(club.flex || "").trim(),
+    sale: Number(club.sale || 0),
+    buy: Number(club.buy || 0),
+    source: String(club.source || "").trim(),
+    updatedAt: String(club.updatedAt || SAMPLE_DATA_DATE).trim(),
+    confidence: String(club.confidence || "参考").trim(),
+    memo: String(club.memo || "").trim()
+  };
+}
+
+function isBuiltInSample(club) {
+  return String(club.source || "").trim() === "内蔵サンプル";
+}
+
+function loadClubs() {
+  const initialSamples = sampleCatalog
+    .map(normalizeClub)
+    .filter(isValidClub);
+
+  if (typeof localStorage === "undefined") {
+    return initialSamples;
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if (Array.isArray(saved) && saved.length) {
+      const savedClubs = saved
+        .map(normalizeClub)
+        .filter(isValidClub)
+        .filter((club) => !isBuiltInSample(club));
+      const savedKeys = new Set(savedClubs.map(makeCatalogKey));
+      const missingSamples = initialSamples.filter((club) => !savedKeys.has(makeCatalogKey(club)));
+      return [...missingSamples, ...savedClubs];
+    }
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  return initialSamples;
+}
+
+function saveClubs() {
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(clubs));
+  }
+}
+
+function loadHistory() {
+  if (typeof localStorage === "undefined") return [];
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || "[]");
     return Array.isArray(saved) ? saved : [];
   } catch {
     localStorage.removeItem(HISTORY_STORAGE_KEY);
@@ -308,4 +365,26 @@ function average(items, key) {
 
 function averageClubValue(items, key) {
   if (!items.length) return 0;
-  return items.reduce((sum, club) => sum + Nu
+  return items.reduce((sum, club) => sum + Number(club[key] || 0), 0) / items.length;
+}
+
+function marginRate(club) {
+  if (!club.adjustedSale) return 0;
+  return ((club.adjustedSale - club.adjustedBuy) / club.adjustedSale) * 100;
+}
+
+function renderOverview() {
+  const categories = [...new Set(clubs.map((club) => club.category))];
+  const maxSale = clubs.length ? Math.max(...clubs.map((club) => Number(club.sale || 0))) : 0;
+  const ironSets = clubs.filter((club) => club.category === "アイアンセット").length;
+  const maxCount = Math.max(1, ...categories.map((category) => clubs.filter((club) => club.category === category).length));
+
+  elements.overviewTotal.textContent = `${clubs.length}件`;
+  elements.overviewAvgSale.textContent = yen(averageClubValue(clubs, "sale"));
+  elements.overviewMaxSale.textContent = yen(maxSale);
+  elements.overviewIronSets.textContent = `${ironSets}件`;
+  elements.categoryBars.innerHTML = categories
+    .map((category) => {
+      const count = clubs.filter((club) => club.category === category).length;
+      const width = Math.max(8, Math.round((count / maxCount) * 100));
+    

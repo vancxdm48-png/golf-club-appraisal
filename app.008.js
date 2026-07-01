@@ -1,81 +1,4 @@
-div><dt>お客様名</dt><dd>${escapeHtml(record.customerName || "未入力")}</dd></div>
-          <div><dt>対応状況</dt><dd>${escapeHtml(record.dealStatus)}</dd></div>
-        </dl>
-      </header>
-
-      <section>
-        <h2>クラブ情報</h2>
-        <table>
-          <tbody>
-            <tr><th>メーカー / モデル</th><td>${escapeHtml(record.maker)} ${escapeHtml(record.model)}</td></tr>
-            <tr><th>種類</th><td>${escapeHtml(record.category)}</td></tr>
-            <tr><th>年式</th><td>${escapeHtml(record.year)}</td></tr>
-            <tr><th>仕様</th><td>${escapeHtml(record.loft)} / ${escapeHtml(record.shaft)} / ${escapeHtml(record.flex)}</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section>
-        <h2>査定条件</h2>
-        <table>
-          <tbody>
-            <tr><th>状態</th><td>${escapeHtml(record.condition)}</td></tr>
-            <tr><th>在庫回転</th><td>${escapeHtml(record.stock)}</td></tr>
-            <tr><th>付属品</th><td>${escapeHtml(record.accessories)}</td></tr>
-            <tr><th>目標粗利率</th><td>${escapeHtml(record.targetMargin)}%</td></tr>
-            <tr><th>整備費</th><td>${yen(record.repairCost)}</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section>
-        <h2>提案価格</h2>
-        <div class="print-price-grid">
-          <div><span>販売提案</span><strong>${yen(record.saleProposal)}</strong></div>
-          <div><span>買取上限</span><strong>${yen(record.buyLimit)}</strong></div>
-          <div><span>想定粗利</span><strong>${yen(record.profit)}</strong></div>
-          <div><span>粗利率</span><strong>${escapeHtml(record.margin)}%</strong></div>
-        </div>
-      </section>
-
-      <section>
-        <h2>根拠・確認</h2>
-        <table>
-          <tbody>
-            <tr><th>根拠</th><td>${escapeHtml(record.source || "未設定")}</td></tr>
-            <tr><th>更新日</th><td>${escapeHtml(record.updatedAt || "未設定")}</td></tr>
-            <tr><th>信頼度</th><td>${escapeHtml(record.confidence || "未設定")}</td></tr>
-            <tr><th>査定確認</th><td>${escapeHtml(record.dataStatus || "確認未記録")}</td></tr>
-            <tr><th>確認内容</th><td>${escapeHtml(record.dataIssues || "未設定")}</td></tr>
-            <tr><th>実行確認</th><td>${escapeHtml(record.reviewStatus || "未確認")}</td></tr>
-            <tr><th>確認日時</th><td>${escapeHtml(record.reviewConfirmedAt || "不要")}</td></tr>
-            <tr><th>判断メモ</th><td>${escapeHtml(record.advice)}</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <footer>
-        <p>提示額は現物確認、付属品、相場変動により変更される場合があります。</p>
-        <div>お客様確認欄: ________________________________</div>
-      </footer>
-    </div>
-  `;
-}
-
-function printAppraisalSheet() {
-  const proposal = getProposal();
-  if (!proposal) return;
-  const review = getAppraisalReview(proposal, "査定票印刷");
-  if (!review) return;
-  elements.printSheet.innerHTML = buildPrintSheet(review);
-  window.print();
-}
-
-function matchesQualityFilter(club) {
-  const filter = elements.qualityFilter.value;
-  const issues = getAuditIssues(club);
-  if (!filter) return true;
-  if (filter === "issues") return issues.length > 0;
+=== "issues") return issues.length > 0;
   if (filter === "clean") return issues.length === 0;
   if (filter === "old") return !club.updatedAt || daysSince(club.updatedAt) > DATA_FRESH_DAYS;
   if (filter === "sample") return club.source === "内蔵サンプル";
@@ -295,4 +218,169 @@ function mergeImportedClubs(imported) {
   let added = 0;
   let updated = 0;
 
-  imported.forE
+  imported.forEach((club) => {
+    const key = makeCatalogKey(club);
+    if (existingKeys.has(key)) {
+      const index = existingKeys.get(key);
+      clubs[index] = normalizeClub({ ...club, id: clubs[index].id }, index);
+      updated += 1;
+      return;
+    }
+
+    clubs.push(normalizeClub(club, clubs.length));
+    existingKeys.set(key, clubs.length - 1);
+    added += 1;
+  });
+
+  return { added, updated };
+}
+
+function importCsv(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const imported = parseCsv(String(reader.result))
+      .map((item, index) => normalizeClub({
+        maker: item.maker || item["メーカー"] || "",
+        model: item.model || item["モデル"] || "",
+        category: item.category || item["種類"] || "",
+        year: Number(item.year || item["年式"] || 0),
+        loft: item.loft || item["ロフト"] || "",
+        shaft: item.shaft || item["シャフト"] || "",
+        flex: item.flex || item["フレックス"] || "",
+        sale: Number(item.sale || item["店頭相場"] || 0),
+        buy: Number(item.buy || item["買取目安"] || 0),
+        source: item.source || item["根拠"] || "",
+        updatedAt: item.updatedAt || item["更新日"] || todayISO(),
+        confidence: item.confidence || item["信頼度"] || "要確認",
+        memo: item.memo || item["メモ"] || ""
+      }, index))
+      .filter(isValidClub);
+
+    if (!imported.length) {
+      setImportStatus("有効データなし", "is-warning");
+      elements.csvInput.value = "";
+      return;
+    }
+
+    const result = mergeImportedClubs(imported);
+    setImportStatus(`追加${result.added}件 更新${result.updated}件`, "is-ok");
+
+    if (imported.length) {
+      selectedIndex = 0;
+      saveClubs();
+      renderTable();
+    }
+    elements.csvInput.value = "";
+  };
+  reader.onerror = () => {
+    setImportStatus("読み込み失敗", "is-warning");
+    elements.csvInput.value = "";
+  };
+  reader.readAsText(file);
+}
+
+function csvEscape(value) {
+  const text = String(value ?? "");
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, "\"\"")}"` : text;
+}
+
+function exportCsv() {
+  const headers = CSV_HEADERS;
+  const body = clubs.map((club) => headers.map((key) => csvEscape(club[key])).join(","));
+  const blob = new Blob([[headers.join(","), ...body].join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "used-golf-market.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function applyExternalMarketToEdit() {
+  updateExternalKeyword();
+  const sale = Number(elements.externalSaleInput.value || 0);
+  if (!sale) {
+    elements.externalStatus.textContent = "確認価格を入力してください。";
+    return;
+  }
+
+  const keyword = elements.externalKeywordInput.value.trim();
+  const buy = Number(elements.externalBuyInput.value || 0) || roundToHundred(sale * 0.6);
+  const source = `${elements.externalSourceSelect.value} ${todayISO()}`;
+  const memoParts = [
+    elements.externalMemoInput.value.trim(),
+    keyword ? `外部確認キーワード: ${keyword}` : ""
+  ].filter(Boolean);
+  const currentClub = selectedIndex >= 0 ? clubs[selectedIndex] : null;
+
+  if (!currentClub || isBuiltInSample(currentClub)) {
+    startNewRecord();
+    elements.editMaker.value = "外部確認";
+    elements.editModel.value = keyword || "未設定";
+    elements.editCategory.value = elements.categoryFilter.value || "ドライバー";
+  }
+
+  elements.editSale.value = sale;
+  elements.editBuy.value = buy;
+  elements.editSource.value = source;
+  elements.editUpdatedAt.value = todayISO();
+  elements.editConfidence.value = "相場確認";
+  elements.editMemo.value = memoParts.join(" / ");
+  elements.validationMessage.textContent = "外部確認価格を編集欄へ反映しました。内容を確認して保存してください。";
+  elements.externalStatus.textContent = "査定価格を計算しました。保存ボタンで登録できます。";
+  renderProposal();
+}
+
+function readEditForm() {
+  return normalizeClub({
+    id: draftMode ? `club-${Date.now()}` : clubs[selectedIndex]?.id || `club-${Date.now()}`,
+    maker: elements.editMaker.value,
+    model: elements.editModel.value,
+    category: elements.editCategory.value,
+    year: Number(elements.editYear.value || 0),
+    loft: elements.editLoft.value,
+    shaft: elements.editShaft.value,
+    flex: elements.editFlex.value,
+    sale: Number(elements.editSale.value || 0),
+    buy: Number(elements.editBuy.value || 0),
+    source: elements.editSource.value,
+    updatedAt: elements.editUpdatedAt.value || todayISO(),
+    confidence: elements.editConfidence.value,
+    memo: elements.editMemo.value
+  }, selectedIndex);
+}
+
+function saveEditedRecord(event) {
+  event.preventDefault();
+  const nextClub = readEditForm();
+  if (!isValidClub(nextClub)) {
+    elements.validationMessage.textContent = "メーカー、モデル、種類、店頭相場、買取目安を確認してください。";
+    return;
+  }
+
+  if (draftMode) {
+    clubs.unshift(nextClub);
+    selectedIndex = 0;
+    draftMode = false;
+  } else {
+    clubs[selectedIndex] = nextClub;
+  }
+  saveClubs();
+  renderTable();
+}
+
+function startNewRecord() {
+  draftMode = true;
+  const blank = normalizeClub({
+    id: `club-${Date.now()}`,
+    maker: "",
+    model: "",
+    category: "ドライバー",
+    year: new Date().getFullYear(),
+    loft: "",
+    shaft: "",
+    flex: "",
+    sale: 0,
+    buy: 0

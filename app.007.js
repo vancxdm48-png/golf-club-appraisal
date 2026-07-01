@@ -1,26 +1,4 @@
-mber(club[key] || 0), 0) / items.length;
-}
-
-function marginRate(club) {
-  if (!club.adjustedSale) return 0;
-  return ((club.adjustedSale - club.adjustedBuy) / club.adjustedSale) * 100;
-}
-
-function renderOverview() {
-  const categories = [...new Set(clubs.map((club) => club.category))];
-  const maxSale = clubs.length ? Math.max(...clubs.map((club) => Number(club.sale || 0))) : 0;
-  const ironSets = clubs.filter((club) => club.category === "アイアンセット").length;
-  const maxCount = Math.max(1, ...categories.map((category) => clubs.filter((club) => club.category === category).length));
-
-  elements.overviewTotal.textContent = `${clubs.length}件`;
-  elements.overviewAvgSale.textContent = yen(averageClubValue(clubs, "sale"));
-  elements.overviewMaxSale.textContent = yen(maxSale);
-  elements.overviewIronSets.textContent = `${ironSets}件`;
-  elements.categoryBars.innerHTML = categories
-    .map((category) => {
-      const count = clubs.filter((club) => club.category === category).length;
-      const width = Math.max(8, Math.round((count / maxCount) * 100));
-      return `
+  return `
         <div class="category-bar">
           <div class="bar-label"><span>${category}</span><strong>${count}件</strong></div>
           <div class="bar-track"><span style="width: ${width}%"></span></div>
@@ -331,4 +309,81 @@ function buildPrintSheet(review) {
         <dl>
           <div><dt>査定日</dt><dd>${escapeHtml(record.date)}</dd></div>
           <div><dt>担当者</dt><dd>${escapeHtml(record.staffName || "未入力")}</dd></div>
-          <
+          <div><dt>お客様名</dt><dd>${escapeHtml(record.customerName || "未入力")}</dd></div>
+          <div><dt>対応状況</dt><dd>${escapeHtml(record.dealStatus)}</dd></div>
+        </dl>
+      </header>
+
+      <section>
+        <h2>クラブ情報</h2>
+        <table>
+          <tbody>
+            <tr><th>メーカー / モデル</th><td>${escapeHtml(record.maker)} ${escapeHtml(record.model)}</td></tr>
+            <tr><th>種類</th><td>${escapeHtml(record.category)}</td></tr>
+            <tr><th>年式</th><td>${escapeHtml(record.year)}</td></tr>
+            <tr><th>仕様</th><td>${escapeHtml(record.loft)} / ${escapeHtml(record.shaft)} / ${escapeHtml(record.flex)}</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>査定条件</h2>
+        <table>
+          <tbody>
+            <tr><th>状態</th><td>${escapeHtml(record.condition)}</td></tr>
+            <tr><th>在庫回転</th><td>${escapeHtml(record.stock)}</td></tr>
+            <tr><th>付属品</th><td>${escapeHtml(record.accessories)}</td></tr>
+            <tr><th>目標粗利率</th><td>${escapeHtml(record.targetMargin)}%</td></tr>
+            <tr><th>整備費</th><td>${yen(record.repairCost)}</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>提案価格</h2>
+        <div class="print-price-grid">
+          <div><span>販売提案</span><strong>${yen(record.saleProposal)}</strong></div>
+          <div><span>買取上限</span><strong>${yen(record.buyLimit)}</strong></div>
+          <div><span>想定粗利</span><strong>${yen(record.profit)}</strong></div>
+          <div><span>粗利率</span><strong>${escapeHtml(record.margin)}%</strong></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>根拠・確認</h2>
+        <table>
+          <tbody>
+            <tr><th>根拠</th><td>${escapeHtml(record.source || "未設定")}</td></tr>
+            <tr><th>更新日</th><td>${escapeHtml(record.updatedAt || "未設定")}</td></tr>
+            <tr><th>信頼度</th><td>${escapeHtml(record.confidence || "未設定")}</td></tr>
+            <tr><th>査定確認</th><td>${escapeHtml(record.dataStatus || "確認未記録")}</td></tr>
+            <tr><th>確認内容</th><td>${escapeHtml(record.dataIssues || "未設定")}</td></tr>
+            <tr><th>実行確認</th><td>${escapeHtml(record.reviewStatus || "未確認")}</td></tr>
+            <tr><th>確認日時</th><td>${escapeHtml(record.reviewConfirmedAt || "不要")}</td></tr>
+            <tr><th>判断メモ</th><td>${escapeHtml(record.advice)}</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer>
+        <p>提示額は現物確認、付属品、相場変動により変更される場合があります。</p>
+        <div>お客様確認欄: ________________________________</div>
+      </footer>
+    </div>
+  `;
+}
+
+function printAppraisalSheet() {
+  const proposal = getProposal();
+  if (!proposal) return;
+  const review = getAppraisalReview(proposal, "査定票印刷");
+  if (!review) return;
+  elements.printSheet.innerHTML = buildPrintSheet(review);
+  window.print();
+}
+
+function matchesQualityFilter(club) {
+  const filter = elements.qualityFilter.value;
+  const issues = getAuditIssues(club);
+  if (!filter) return true;
+  if (filter 

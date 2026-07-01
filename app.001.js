@@ -1,6 +1,6 @@
 const STORAGE_KEY = "usedGolfMarketClubs";
 const HISTORY_STORAGE_KEY = "usedGolfMarketAppraisalHistory";
-const APP_VERSION = "v1.10.2";
+const APP_VERSION = "v1.10.3";
 const SAMPLE_DATA_DATE = "2026-07-01";
 const DATA_FRESH_DAYS = 45;
 const LOW_MARGIN_THRESHOLD = 25;
@@ -90,4 +90,4 @@ const additionalMarketData = [
 
   { maker: "Odyssey", model: "WHITE HOT OG #5", category: "パター", year: 2021, loft: "34inch", shaft: "Steel", flex: "-", sale: 14800, buy: 7800, memo: "定番インサート。カバー有無を確認。" },
   { maker: "Odyssey", model: "TEN TRIPLE TRACK", category: "パター", year: 2020, loft: "34inch", shaft: "STROKE LAB", flex: "-", sale: 16800, buy: 9000, memo: "アライメント系。塗装欠けを確認。" },
-  { maker: "Scotty Cameron", model: "PHANTOM X 5.5", category: "パター", year: 2021, loft: "34inch", shaft: "Steel", flex: "-", sale: 45800, buy: 28000, memo: "高額帯。保証書、カバ
+  { mak

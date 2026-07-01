@@ -1,9 +1,9 @@
-const CACHE_NAME = "used-golf-market-v1.10.2";
+const CACHE_NAME = "used-golf-market-v1.10.3";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js",
+  "./app.js?v=1.10.3",
   "./manifest.webmanifest",
   "./icon.png",
   "./data/import-template.csv",

@@ -1,4 +1,6 @@
- 2021, loft: "6本セット", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 59800, buy: 35000, memo: "中級者向け。シャフト重量で需要が変わる。" },
+ト", shaft: "Diamana 50 for Callaway", flex: "S", sale: 39800, buy: 21500, memo: "価格帯が合えば初心者向けに出しやすい。" },
+  { maker: "Callaway", model: "X FORGED STAR 2021", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 59800, buy: 35000, memo: "軟鉄飛び系。打痕とメッキ状態を確認。" },
+  { maker: "Callaway", model: "APEX 21", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 59800, buy: 35000, memo: "中級者向け。シャフト重量で需要が変わる。" },
   { maker: "Titleist", model: "T150", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "Dynamic Gold 120", flex: "S200", sale: 92800, buy: 58000, memo: "競技志向の高年式。摩耗が少なければ強め。" },
   { maker: "Titleist", model: "T350", category: "アイアンセット", year: 2023, loft: "5本セット", shaft: "N.S.PRO 880 AMC", flex: "S", sale: 82800, buy: 50000, memo: "やさしいTitleist。セット構成を確認。" },
   { maker: "Titleist", model: "620 CB", category: "アイアンセット", year: 2019, loft: "6本セット", shaft: "Dynamic Gold", flex: "S200", sale: 54800, buy: 32000, memo: "上級者向け。打痕と溝の状態を細かく見る。" },
@@ -58,11 +60,4 @@ const moreIronSetData = [
   { maker: "YAMAHA", model: "inpres UD+2 2021", category: "アイアンセット", year: 2021, loft: "5本セット", shaft: "Air Speeder for Yamaha", flex: "R", sale: 49800, buy: 28000, memo: "飛距離特化。シニア層向けの定番候補。" },
   { maker: "YAMAHA", model: "inpres UD+2 LADIES", category: "アイアンセット", year: 2021, loft: "5本セット", shaft: "Air Speeder for Yamaha", flex: "L", sale: 49800, buy: 28000, memo: "レディース飛び系。状態と長さを確認。" },
   { maker: "PRGR", model: "05 IRON", category: "アイアンセット", year: 2023, loft: "5本セット", shaft: "MCI FOR PRGR", flex: "R", sale: 64800, buy: 38000, memo: "やさしい飛び系。Rフレックス需要を確認。" },
-  { maker: "PRGR", model: "01 IRON", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "N.S.PRO MODUS3 115", flex: "S", sale: 69800, buy: 41000, memo: "操作性重視。対象客は絞られるが状態良好なら強め。" },
-  { maker: "HONMA", model: "BERES AIZU", category: "アイアンセット", year: 2024, loft: "5本セット", shaft: "ARMRQ MX", flex: "R", sale: 128000, buy: 82000, memo: "高価格帯。グレード、星数、保証書を必ず確認。" },
-  { maker: "HONMA", model: "T//WORLD TR21 X", category: "アイアンセット", year: 2020, loft: "6本セット", shaft: "VIZARD TR20-65", flex: "S", sale: 44800, buy: 25000, memo: "中空系。価格訴求で中級者に提案しやすい。" },
-  { maker: "ONOFF", model: "AKA 2024", category: "アイアンセット", year: 2024, loft: "5本セット", shaft: "SMOOTH KICK MP-524I", flex: "R", sale: 89800, buy: 55000, memo: "高年式軽量。固定ファンとシニア層需要。" },
-  { maker: "ONOFF", model: "LADY 2023", category: "アイアンセット", year: 2023, loft: "5本セット", shaft: "SMOOTH KICK LP-423I", flex: "L", sale: 74800, buy: 44000, memo: "レディース需要。傷、グリップ、長さを確認。" },
-  { maker: "FOURTEEN", model: "TB-7 FORGED", category: "アイアンセット", year: 2022, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 69800, buy: 41000, memo: "軟鉄系。状態が良いと固定ファンに訴求しやすい。" },
-  { maker: "FOURTEEN", model: "IF-700 FORGED", category: "アイアンセット", year: 2020, loft: "5本セット", shaft: "FT-70i", flex: "S", sale: 39800, buy: 21500, memo: "やさしい軟鉄系。番手構成とシャフト表記を確認。" },
-  { maker: "C
+  { maker: "PRGR", model: "01 IRON", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "N.S.PRO MODUS3 115", flex: "S", sale: 69800, buy: 41000, memo: "操作性重視。対象客は絞ら
