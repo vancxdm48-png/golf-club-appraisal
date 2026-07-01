@@ -1,0 +1,80 @@
+ー、状態を細かく確認。" },
+  { maker: "Scotty Cameron", model: "SUPER SELECT NEWPORT 2", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 54800, buy: 34000, memo: "人気が強い。偽物対策と付属品確認が必須。" },
+  { maker: "TaylorMade", model: "Spider GTX", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 19800, buy: 10800, memo: "大型マレット需要。塗装状態を確認。" },
+  { maker: "PING", model: "2023 ANSER", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 19800, buy: 11200, memo: "定番形状。長さとグリップ状態を確認。" }
+];
+
+const expandedMarketData = [
+  { maker: "YAMAHA", model: "RMX VD/X", category: "ドライバー", year: 2023, loft: "10.5", shaft: "TENSEI TR", flex: "S", sale: 34800, buy: 19800, memo: "国内ブランドのやさしい系。純正シャフト需要あり。" },
+  { maker: "YAMAHA", model: "inpres DRIVE STAR", category: "ドライバー", year: 2022, loft: "10.5", shaft: "SPEEDER NX for Yamaha", flex: "SR", sale: 32800, buy: 18500, memo: "軽量でつかまり重視。シニア層にも確認。" },
+  { maker: "PRGR", model: "RS JUST", category: "ドライバー", year: 2022, loft: "10.5", shaft: "Diamana FOR PRGR", flex: "S", sale: 27800, buy: 15000, memo: "国内ブランド。弾道調整機能と付属品を確認。" },
+  { maker: "HONMA", model: "T//WORLD GS", category: "ドライバー", year: 2021, loft: "10.5", shaft: "SPEEDTUNED 48", flex: "R", sale: 19800, buy: 9800, memo: "軽量モデル。状態が良いと初心者向けに出しやすい。" },
+  { maker: "ONOFF", model: "AKA", category: "ドライバー", year: 2022, loft: "10.5", shaft: "SMOOTH KICK MP-522D", flex: "R", sale: 34800, buy: 19800, memo: "固定ファンあり。グリップとカバー状態を確認。" },
+  { maker: "XXIO", model: "X-eks 2022", category: "ドライバー", year: 2022, loft: "10.5", shaft: "Miyazaki AX-2", flex: "S", sale: 32800, buy: 18500, memo: "ゼクシオ系でも少しハードな層向け。" },
+  { maker: "TaylorMade", model: "SIM2 MAX", category: "ドライバー", year: 2021, loft: "10.5", shaft: "TENSEI BLUE TM50", flex: "S", sale: 26800, buy: 14500, memo: "型落ちでも人気。クラウン傷で差が出る。" },
+  { maker: "Callaway", model: "MAVRIK MAX", category: "ドライバー", year: 2020, loft: "10.5", shaft: "Diamana 40 for Callaway", flex: "SR", sale: 19800, buy: 9800, memo: "やさしい系の中古入門価格帯。" },
+  { maker: "Titleist", model: "TSi3", category: "ドライバー", year: 2020, loft: "9.0", shaft: "TSP110 50", flex: "S", sale: 27800, buy: 15200, memo: "低ロフトは対象客を絞って提案。" },
+  { maker: "SRIXON", model: "ZX5 Mk II LS", category: "ドライバー", year: 2022, loft: "9.5", shaft: "Diamana ZX-II", flex: "S", sale: 32800, buy: 18800, memo: "低スピン系。ヘッドスピード層に注意。" },
+
+  { maker: "YAMAHA", model: "RMX VD", category: "フェアウェイウッド", year: 2023, loft: "5W 18", shaft: "TENSEI TR", flex: "S", sale: 24800, buy: 13500, memo: "国内ブランドFW。5Wは比較的動きやすい。" },
+  { maker: "PRGR", model: "RS JUST", category: "フェアウェイウッド", year: 2022, loft: "5W 18", shaft: "Diamana FOR PRGR", flex: "S", sale: 19800, buy: 9800, memo: "価格帯で勝負しやすい。" },
+  { maker: "HONMA", model: "T//WORLD GS", category: "フェアウェイウッド", year: 2021, loft: "7W 21", shaft: "SPEEDTUNED 48", flex: "R", sale: 16800, buy: 7800, memo: "7W需要あり。軽量シャフトは状態重視。" },
+  { maker: "ONOFF", model: "AKA", category: "フェアウェイウッド", year: 2022, loft: "5W 18", shaft: "SMOOTH KICK MP-522F", flex: "R", sale: 24800, buy: 13800, memo: "同ブランドで揃えたい客向け。" },
+  { maker: "TaylorMade", model: "SIM2 MAX", category: "フェアウェイウッド", year: 2021, loft: "5W 18", shaft: "TENSEI BLUE TM50", flex: "S", sale: 19800, buy: 10200, memo: "型落ち人気。クラウン傷を確認。" },
+  { maker: "Callaway", model: "EPIC MAX", category: "フェアウェイウッド", year: 2021, loft: "7W 21", shaft: "Diamana 40 for Callaway", flex: "SR", sale: 19800, buy: 10500, memo: "7Wは買い足し需要が強い。" },
+  { maker: "SRIXON", model: "ZX Mk II", category: "フェアウェイウッド", year: 2022, loft: "3W 15", shaft: "Diamana ZX-II", flex: "S", sale: 22800, buy: 12200, memo: "競技寄り。3Wは状態差が出やすい。" },
+
+  { maker: "YAMAHA", model: "inpres DRIVE STAR", category: "ユーティリティ", year: 2022, loft: "U5 23", shaft: "SPEEDER NX for Yamaha", flex: "SR", sale: 22800, buy: 12800, memo: "軽量UT。やさしい番手として動きやすい。" },
+  { maker: "PRGR", model: "RS JUST", category: "ユーティリティ", year: 2022, loft: "U4 22", shaft: "Diamana FOR PRGR", flex: "S", sale: 17800, buy: 8800, memo: "価格が合えば動かしやすい。" },
+  { maker: "HONMA", model: "T//WORLD GS", category: "ユーティリティ", year: 2021, loft: "U5 24", shaft: "SPEEDTUNED 48", flex: "R", sale: 15800, buy: 7200, memo: "軽量帯。ヘッドカバー有無を確認。" },
+  { maker: "ONOFF", model: "AKA", category: "ユーティリティ", year: 2022, loft: "U5 23", shaft: "SMOOTH KICK MP-522U", flex: "R", sale: 23800, buy: 13500, memo: "同ブランド買い足し需要あり。" },
+  { maker: "MIZUNO", model: "JPX FLI-HI", category: "ユーティリティ", year: 2022, loft: "U4 22", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 19800, buy: 10500, memo: "アイアン型に近い需要。通常UTと分けて説明。" },
+  { maker: "Titleist", model: "U505", category: "ユーティリティ", year: 2021, loft: "U3 20", shaft: "N.S.PRO 880 AMC", flex: "S", sale: 24800, buy: 14200, memo: "アイアン型UT。競技層向け。" },
+  { maker: "SRIXON", model: "ZX UTILITY", category: "ユーティリティ", year: 2020, loft: "U3 20", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 16800, buy: 8200, memo: "アイアン型。番手とシャフト重量を確認。" },
+
+  { maker: "PING", model: "G430 #7", category: "単品アイアン", year: 2022, loft: "7I", shaft: "N.S.PRO 850GH neo", flex: "S", sale: 11800, buy: 5600, memo: "試打落ちや補充需要。カラーコードを確認。" },
+  { maker: "PING", model: "i230 #7", category: "単品アイアン", year: 2022, loft: "7I", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 13800, buy: 7200, memo: "単品でも需要あり。ライ角カラーが重要。" },
+  { maker: "TaylorMade", model: "P790 #7", category: "単品アイアン", year: 2021, loft: "7I", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 12800, buy: 6500, memo: "人気モデルの単品。セット補充需要。" },
+  { maker: "Callaway", model: "APEX #7", category: "単品アイアン", year: 2021, loft: "7I", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 9800, buy: 4600, memo: "練習用、補充用で動く。" },
+  { maker: "DUNLOP", model: "XXIO 12 #7", category: "単品アイアン", year: 2021, loft: "7I", shaft: "MP1200", flex: "R", sale: 11800, buy: 5800, memo: "軽量単品。シニア層の補充需要。" },
+  { maker: "MIZUNO", model: "JPX 923 HOT METAL #7", category: "単品アイアン", year: 2022, loft: "7I", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 12800, buy: 6800, memo: "試打用にも使いやすいスペック。" },
+  { maker: "Titleist", model: "T200 #7", category: "単品アイアン", year: 2023, loft: "7I", shaft: "N.S.PRO 105T", flex: "S", sale: 15800, buy: 8800, memo: "高年式単品。打痕が少なければ強め。" },
+  { maker: "SRIXON", model: "ZX5 Mk II #7", category: "単品アイアン", year: 2022, loft: "7I", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 13800, buy: 7600, memo: "人気モデルの単品補充需要。" },
+
+  { maker: "YAMAHA", model: "RMX VD/M", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 74800, buy: 44000, memo: "国内軟鉄系。フェース状態とロフト調整跡を確認。" },
+  { maker: "YAMAHA", model: "inpres DRIVE STAR", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "SPEEDER NX for Yamaha", flex: "SR", sale: 64800, buy: 38000, memo: "軽量飛び系。シニア層需要。" },
+  { maker: "PRGR", model: "03 IRON", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "Diamana FOR PRGR", flex: "S", sale: 54800, buy: 31500, memo: "飛び系。番手構成を明確にする。" },
+  { maker: "HONMA", model: "BERES NX", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "VIZARD FOR NX", flex: "R", sale: 72800, buy: 43000, memo: "高価格帯。グレードと状態を確認。" },
+  { maker: "ONOFF", model: "AKA", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "SMOOTH KICK MP-522I", flex: "R", sale: 64800, buy: 38000, memo: "固定ファンあり。軽量カーボン需要。" },
+  { maker: "FOURTEEN", model: "TB-5 FORGED", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 59800, buy: 35000, memo: "やさしい軟鉄系。状態良好なら訴求しやすい。" },
+  { maker: "COBRA", model: "KING LTDx", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "KBS TOUR LITE", flex: "S", sale: 42800, buy: 23500, memo: "価格訴求型。初心者から中級者向け。" },
+  { maker: "Titleist", model: "T100", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "Dynamic Gold 120", flex: "S200", sale: 74800, buy: 45000, memo: "上級者向け。摩耗、ロフトライ調整跡を確認。" },
+
+  { maker: "FOURTEEN", model: "DJ-5", category: "ウェッジ", year: 2021, loft: "56", shaft: "N.S.PRO DS-91w", flex: "WEDGE", sale: 9800, buy: 4700, memo: "やさしいウェッジ。ソール傷を確認。" },
+  { maker: "FOURTEEN", model: "RM-α", category: "ウェッジ", year: 2023, loft: "52", shaft: "N.S.PRO TS-114w", flex: "WEDGE", sale: 12800, buy: 6600, memo: "国内ウェッジ需要。ロフト別管理。" },
+  { maker: "PRGR", model: "R45 WEDGE", category: "ウェッジ", year: 2021, loft: "45", shaft: "Steel", flex: "WEDGE", sale: 6800, buy: 2800, memo: "チッパー系。用途説明が必要。" },
+  { maker: "ONOFF", model: "FROG'S LEAP II", category: "ウェッジ", year: 2021, loft: "58", shaft: "N.S.PRO 950GH", flex: "S", sale: 9800, buy: 4600, memo: "バンカー苦手層向け。特殊形状として説明。" },
+  { maker: "PING", model: "s159", category: "ウェッジ", year: 2024, loft: "56", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 16800, buy: 9200, memo: "高年式。グラインド表記を確認。" },
+  { maker: "TaylorMade", model: "MG4", category: "ウェッジ", year: 2023, loft: "58", shaft: "Dynamic Gold EX", flex: "S200", sale: 13800, buy: 7200, memo: "新しめのウェッジ。フェース摩耗を確認。" },
+
+  { maker: "TaylorMade", model: "TP TRUSS B1TH", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 24800, buy: 14200, memo: "トラス系人気。ネック形状を正確に記録。" },
+  { maker: "TaylorMade", model: "Spider TOUR X", category: "パター", year: 2024, loft: "34inch", shaft: "Steel", flex: "-", sale: 32800, buy: 19800, memo: "高年式。塗装欠けとカバー有無を確認。" },
+  { maker: "PING", model: "DS72", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 22800, buy: 12800, memo: "中型マレット。長さとグリップ状態を確認。" },
+  { maker: "Odyssey", model: "WHITE HOT VERSA SEVEN", category: "パター", year: 2023, loft: "34inch", shaft: "Steel", flex: "-", sale: 19800, buy: 11000, memo: "視認性の高い人気形状。" },
+  { maker: "Odyssey", model: "ELEVEN TOUR LINED", category: "パター", year: 2022, loft: "34inch", shaft: "STROKE LAB", flex: "-", sale: 19800, buy: 10800, memo: "大型マレット。フェースインサート状態を確認。" },
+  { maker: "Scotty Cameron", model: "FUTURA 5W", category: "パター", year: 2017, loft: "34inch", shaft: "Steel", flex: "-", sale: 32800, buy: 19000, memo: "旧型でも需要あり。傷とカバーを確認。" },
+  { maker: "Bettinardi", model: "BB1", category: "パター", year: 2022, loft: "34inch", shaft: "Steel", flex: "-", sale: 34800, buy: 20500, memo: "専門ブランド。状態が良ければ差別化しやすい。" }
+];
+
+const extraIronSetData = [
+  { maker: "PING", model: "G425", category: "アイアンセット", year: 2020, loft: "6本セット", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 59800, buy: 35000, memo: "やさしい定番。カラーコードと番手構成を確認。" },
+  { maker: "PING", model: "i525", category: "アイアンセット", year: 2022, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 74800, buy: 44000, memo: "中空系。飛距離性能と見た目の良さで需要あり。" },
+  { maker: "PING", model: "i210", category: "アイアンセット", year: 2018, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 54800, buy: 31500, memo: "旧型でも指名買いあり。ライ角カラーを確認。" },
+  { maker: "TaylorMade", model: "P770 2023", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 85800, buy: 52000, memo: "人気の中空系。状態が良ければ強めに評価。" },
+  { maker: "TaylorMade", model: "P790 2023", category: "アイアンセット", year: 2023, loft: "6本セット", shaft: "N.S.PRO 950GH neo", flex: "S", sale: 89800, buy: 55000, memo: "高年式P790。番手構成とシャフト違いを確認。" },
+  { maker: "TaylorMade", model: "SIM2 MAX", category: "アイアンセット", year: 2021, loft: "5本セット", shaft: "TENSEI BLUE TM60", flex: "S", sale: 42800, buy: 23500, memo: "初心者から中級者向け。価格訴求で動かしやすい。" },
+  { maker: "TaylorMade", model: "Qi IRON", category: "アイアンセット", year: 2024, loft: "5本セット", shaft: "Diamana BLUE TM60", flex: "S", sale: 79800, buy: 47000, memo: "高年式の飛び系。カーボン仕様は軽量需要あり。" },
+  { maker: "Callaway", model: "ROGUE ST MAX FAST", category: "アイアンセット", year: 2022, loft: "5本セット", shaft: "SPEEDER NX 40 for Callaway", flex: "R", sale: 54800, buy: 31500, memo: "軽量モデル。シニア層向けの需要が強い。" },
+  { maker: "Callaway", model: "MAVRIK MAX", category: "アイアンセット", year: 2020, loft: "5本セット", shaft: "Diamana 50 for Callaway", flex: "S", sale: 39800, buy: 21500, memo: "価格帯が合えば初心者向けに出しやすい。" },
+  { maker: "Callaway", model: "X FORGED STAR 2021", category: "アイアンセット", year: 2021, loft: "6本セット", shaft: "N.S.PRO MODUS3 105", flex: "S", sale: 59800, buy: 35000, memo: "軟鉄飛び系。打痕とメッキ状態を確認。" },
+  { maker: "Callaway", model: "APEX 21", category: "アイアンセット", year:
