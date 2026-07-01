@@ -1,14 +1,14 @@
 (async () => {
   const files = [
-  "./app-chunks/app.001.js",
-  "./app-chunks/app.002.js",
-  "./app-chunks/app.003.js",
-  "./app-chunks/app.004.js",
-  "./app-chunks/app.005.js",
-  "./app-chunks/app.006.js",
-  "./app-chunks/app.007.js",
-  "./app-chunks/app.008.js",
-  "./app-chunks/app.009.js"
+  "./app.001.js",
+  "./app.002.js",
+  "./app.003.js",
+  "./app.004.js",
+  "./app.005.js",
+  "./app.006.js",
+  "./app.007.js",
+  "./app.008.js",
+  "./app.009.js"
 ];
   try {
     const parts = await Promise.all(files.map(async (file) => {
