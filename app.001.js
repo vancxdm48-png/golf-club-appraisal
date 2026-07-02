@@ -1,6 +1,7 @@
 const STORAGE_KEY = "usedGolfMarketClubs";
 const HISTORY_STORAGE_KEY = "usedGolfMarketAppraisalHistory";
-const APP_VERSION = "v1.10.4";
+const APP_VERSION = "v1.10.5";
+const TABLE_PAGE_SIZE = 20;
 const SAMPLE_DATA_DATE = "2026-07-01";
 const DATA_FRESH_DAYS = 45;
 const LOW_MARGIN_THRESHOLD = 25;
@@ -89,5 +90,4 @@ const additionalMarketData = [
   { maker: "MIZUNO", model: "T24", category: "ウェッジ", year: 2023, loft: "58", shaft: "Dynamic Gold 95", flex: "S200", sale: 13800, buy: 7200, memo: "新しめの軟鉄ウェッジ。状態が良ければ強め。" },
 
   { maker: "Odyssey", model: "WHITE HOT OG #5", category: "パター", year: 2021, loft: "34inch", shaft: "Steel", flex: "-", sale: 14800, buy: 7800, memo: "定番インサート。カバー有無を確認。" },
-  { maker: "Odyssey", model: "TEN TRIPLE TRACK", category: "パター", year: 2020, loft: "34inch", shaft: "STROKE LAB", flex: "-", sale: 16800, buy: 9000, memo: "アライメント系。塗装欠けを確認。" },
-  { mak
+  { maker: "Odyssey", model: "TEN TRIPLE TRACK", category: "パター", year: 2020, loft: "34inch", shaft: "STROKE LAB", flex: "-", sale: 16800, buy: 9000, memo: "アライメント系。塗装�

@@ -537,6 +537,26 @@ textarea:focus {
   max-height: 62vh;
 }
 
+.table-more {
+  align-items: center;
+  background: #f8fbff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 18px;
+}
+
+.table-more span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.table-more button {
+  min-height: 38px;
+}
+
 table {
   border-collapse: collapse;
   min-width: 980px;
@@ -1301,6 +1321,16 @@ tbody tr.is-selected {
   .table-wrap {
     max-height: none;
     overflow: visible;
+  }
+
+  .table-more {
+    align-items: stretch;
+    display: grid;
+    padding: 12px;
+  }
+
+  .table-more button {
+    width: 100%;
   }
 
   table,

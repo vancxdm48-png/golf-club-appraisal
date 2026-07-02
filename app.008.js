@@ -1,4 +1,12 @@
-=== "issues") return issues.length > 0;
+ntSheet(review);
+  window.print();
+}
+
+function matchesQualityFilter(club) {
+  const filter = elements.qualityFilter.value;
+  const issues = getAuditIssues(club);
+  if (!filter) return true;
+  if (filter === "issues") return issues.length > 0;
   if (filter === "clean") return issues.length === 0;
   if (filter === "old") return !club.updatedAt || daysSince(club.updatedAt) > DATA_FRESH_DAYS;
   if (filter === "sample") return club.source === "内蔵サンプル";
@@ -81,6 +89,7 @@ function clearDetailForNoResults() {
 function renderTable(options = {}) {
   const { autoSelectFirst = false } = options;
   const filtered = getFilteredClubs();
+  const visibleRows = filtered.slice(0, tableVisibleCount);
   renderStats(filtered);
   renderTableCategoryTabs();
 
@@ -88,7 +97,7 @@ function renderTable(options = {}) {
     selectedIndex = filtered[0].index;
   }
 
-  elements.table.innerHTML = filtered
+  elements.table.innerHTML = visibleRows
     .map(({ club, index }) => {
       const selectedClass = index === selectedIndex ? " class=\"is-selected\"" : "";
       const issues = getAuditIssues(club);
@@ -114,9 +123,15 @@ function renderTable(options = {}) {
   if (!filtered.length) {
     selectedIndex = -1;
     elements.table.innerHTML = `<tr><td colspan="7">該当するクラブがありません。</td></tr>`;
+    elements.tableLimitLabel.textContent = "表示できる登録データはありません";
+    elements.loadMoreTableButton.hidden = true;
     clearDetailForNoResults();
     return;
   }
+
+  const shown = Math.min(tableVisibleCount, filtered.length);
+  elements.tableLimitLabel.textContent = `${filtered.length}件中 ${shown}件を表示中`;
+  elements.loadMoreTableButton.hidden = shown >= filtered.length;
 
   renderDetail();
 }
@@ -355,32 +370,4 @@ function readEditForm() {
 function saveEditedRecord(event) {
   event.preventDefault();
   const nextClub = readEditForm();
-  if (!isValidClub(nextClub)) {
-    elements.validationMessage.textContent = "メーカー、モデル、種類、店頭相場、買取目安を確認してください。";
-    return;
-  }
-
-  if (draftMode) {
-    clubs.unshift(nextClub);
-    selectedIndex = 0;
-    draftMode = false;
-  } else {
-    clubs[selectedIndex] = nextClub;
-  }
-  saveClubs();
-  renderTable();
-}
-
-function startNewRecord() {
-  draftMode = true;
-  const blank = normalizeClub({
-    id: `club-${Date.now()}`,
-    maker: "",
-    model: "",
-    category: "ドライバー",
-    year: new Date().getFullYear(),
-    loft: "",
-    shaft: "",
-    flex: "",
-    sale: 0,
-    buy: 0
+  if (!isValidCl

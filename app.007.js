@@ -1,4 +1,8 @@
-  return `
+.innerHTML = categories
+    .map((category) => {
+      const count = clubs.filter((club) => club.category === category).length;
+      const width = Math.max(8, Math.round((count / maxCount) * 100));
+      return `
         <div class="category-bar">
           <div class="bar-label"><span>${category}</span><strong>${count}件</strong></div>
           <div class="bar-track"><span style="width: ${width}%"></span></div>
@@ -378,12 +382,4 @@ function printAppraisalSheet() {
   if (!proposal) return;
   const review = getAppraisalReview(proposal, "査定票印刷");
   if (!review) return;
-  elements.printSheet.innerHTML = buildPrintSheet(review);
-  window.print();
-}
-
-function matchesQualityFilter(club) {
-  const filter = elements.qualityFilter.value;
-  const issues = getAuditIssues(club);
-  if (!filter) return true;
-  if (filter 
+  elements.printSheet.innerHTML = buildPri

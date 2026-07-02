@@ -1,4 +1,32 @@
-,
+ub(nextClub)) {
+    elements.validationMessage.textContent = "メーカー、モデル、種類、店頭相場、買取目安を確認してください。";
+    return;
+  }
+
+  if (draftMode) {
+    clubs.unshift(nextClub);
+    selectedIndex = 0;
+    draftMode = false;
+  } else {
+    clubs[selectedIndex] = nextClub;
+  }
+  saveClubs();
+  renderTable();
+}
+
+function startNewRecord() {
+  draftMode = true;
+  const blank = normalizeClub({
+    id: `club-${Date.now()}`,
+    maker: "",
+    model: "",
+    category: "ドライバー",
+    year: new Date().getFullYear(),
+    loft: "",
+    shaft: "",
+    flex: "",
+    sale: 0,
+    buy: 0,
     source: "",
     updatedAt: todayISO(),
     confidence: "要確認",
@@ -74,6 +102,7 @@ async function copyProposal() {
 
 function renderTableWithAutoSelect() {
   draftMode = false;
+  tableVisibleCount = TABLE_PAGE_SIZE;
   elements.externalKeywordInput.value = elements.search.value.trim();
   renderTable({ autoSelectFirst: true });
 }
@@ -85,6 +114,10 @@ elements.conditionFilter.addEventListener("change", renderTableWithAutoSelect);
 elements.qualityFilter.addEventListener("change", renderTableWithAutoSelect);
 elements.sortSelect.addEventListener("change", renderTableWithAutoSelect);
 elements.minMarginInput.addEventListener("input", renderTableWithAutoSelect);
+elements.loadMoreTableButton.addEventListener("click", () => {
+  tableVisibleCount += TABLE_PAGE_SIZE;
+  renderTable({ autoSelectFirst: false });
+});
 elements.exportCsvButton.addEventListener("click", exportCsv);
 elements.copyButton.addEventListener("click", copySelected);
 elements.saveAppraisalButton.addEventListener("click", saveCurrentAppraisal);
@@ -126,6 +159,7 @@ elements.table.addEventListener("click", (event) => {
 elements.tableCategoryTabs.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-category]");
   if (!button) return;
+  tableVisibleCount = TABLE_PAGE_SIZE;
   elements.categoryFilter.value = button.dataset.category;
   renderTableWithAutoSelect();
 });

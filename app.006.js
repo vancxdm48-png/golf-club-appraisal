@@ -1,4 +1,5 @@
-.maker || "").trim(),
+dex),
+    maker: String(club.maker || "").trim(),
     model: String(club.model || "").trim(),
     category: String(club.category || "").trim(),
     year: Number(club.year || 0),
@@ -89,6 +90,7 @@ let clubs = loadClubs();
 let appraisalHistory = loadHistory();
 let selectedIndex = 0;
 let draftMode = false;
+let tableVisibleCount = TABLE_PAGE_SIZE;
 
 const elements = {
   versionLabel: document.getElementById("versionLabel"),
@@ -108,6 +110,8 @@ const elements = {
   sortSelect: document.getElementById("sortSelect"),
   minMarginInput: document.getElementById("minMarginInput"),
   table: document.getElementById("marketTable"),
+  tableLimitLabel: document.getElementById("tableLimitLabel"),
+  loadMoreTableButton: document.getElementById("loadMoreTableButton"),
   tableCategoryTabs: document.getElementById("tableCategoryTabs"),
   resultCount: document.getElementById("resultCount"),
   avgSale: document.getElementById("avgSale"),
@@ -383,8 +387,4 @@ function renderOverview() {
   elements.overviewAvgSale.textContent = yen(averageClubValue(clubs, "sale"));
   elements.overviewMaxSale.textContent = yen(maxSale);
   elements.overviewIronSets.textContent = `${ironSets}件`;
-  elements.categoryBars.innerHTML = categories
-    .map((category) => {
-      const count = clubs.filter((club) => club.category === category).length;
-      const width = Math.max(8, Math.round((count / maxCount) * 100));
-    
+  elements.categoryBars
