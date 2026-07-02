@@ -2,7 +2,7 @@
   "name": "ゴルフクラブ外部相場査定",
   "short_name": "クラブ査定",
   "description": "外部サイトで確認した中古ゴルフクラブ相場を登録し、査定提案、履歴保存、査定票印刷を行う店頭向けアプリです。",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=1.10.4",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f6f2",

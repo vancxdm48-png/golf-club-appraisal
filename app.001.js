@@ -1,6 +1,6 @@
 const STORAGE_KEY = "usedGolfMarketClubs";
 const HISTORY_STORAGE_KEY = "usedGolfMarketAppraisalHistory";
-const APP_VERSION = "v1.10.3";
+const APP_VERSION = "v1.10.4";
 const SAMPLE_DATA_DATE = "2026-07-01";
 const DATA_FRESH_DAYS = 45;
 const LOW_MARGIN_THRESHOLD = 25;

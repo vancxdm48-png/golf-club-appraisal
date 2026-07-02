@@ -21,6 +21,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
 
 button,
@@ -40,6 +41,7 @@ button,
   font-weight: 700;
   min-height: 42px;
   padding: 0 16px;
+  touch-action: manipulation;
 }
 
 button:hover,
@@ -344,6 +346,10 @@ textarea {
   min-height: 44px;
   padding: 0 12px;
   width: 100%;
+}
+
+textarea {
+  padding-block: 10px;
 }
 
 input:focus,
@@ -1155,14 +1161,42 @@ tbody tr.is-selected {
     grid-template-columns: 1fr 1fr;
   }
 
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-panel {
+    order: -1;
+  }
+
   .search-row input {
     grid-column: 1 / -1;
   }
 }
 
 @media (max-width: 620px) {
+  body {
+    background: #eef5ff;
+  }
+
+  button,
+  .file-button,
+  input,
+  select {
+    min-height: 48px;
+  }
+
+  .topbar {
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
   .workspace {
-    padding-inline: 10px;
+    padding: 12px 10px 26px;
   }
 
   .search-row,
@@ -1181,11 +1215,38 @@ tbody tr.is-selected {
   }
 
   .hero-panel {
+    margin-bottom: 12px;
     padding: 18px;
+  }
+
+  .hero-copy h2 {
+    font-size: 27px;
+  }
+
+  .hero-copy p:not(.eyebrow) {
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .hero-actions button {
     width: 100%;
+  }
+
+  .search-panel,
+  .detail-card,
+  .proposal-panel,
+  .edit-panel,
+  .history-panel,
+  .mini-panel {
+    padding: 14px;
+  }
+
+  .search-panel {
+    margin-bottom: 12px;
+  }
+
+  .external-primary {
+    margin-top: 12px;
   }
 
   .top-actions {
@@ -1203,10 +1264,142 @@ tbody tr.is-selected {
     display: grid;
   }
 
+  .external-head span {
+    justify-self: start;
+  }
+
+  .external-primary .external-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .external-primary .external-links button {
+    min-width: 0;
+    width: 100%;
+  }
+
   .panel-head {
     align-items: flex-start;
     display: grid;
     gap: 6px;
+  }
+
+  .overview-card strong,
+  .price-boxes strong,
+  .proposal-results strong {
+    font-size: 22px;
+  }
+
+  .table-tabs {
+    padding: 10px 12px;
+  }
+
+  .table-tab {
+    min-height: 40px;
+  }
+
+  .table-wrap {
+    max-height: none;
+    overflow: visible;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  tbody tr {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(17, 46, 92, 0.08);
+    overflow: hidden;
+  }
+
+  tbody tr:hover,
+  tbody tr.is-selected {
+    background: #f8fbff;
+    border-color: #60a5fa;
+  }
+
+  td {
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 92px 1fr;
+    padding: 10px 12px;
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+
+  td::before {
+    color: var(--muted);
+    content: "";
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  td:nth-child(1)::before {
+    content: "クラブ";
+  }
+
+  td:nth-child(2)::before {
+    content: "種類";
+  }
+
+  td:nth-child(3)::before {
+    content: "年式";
+  }
+
+  td:nth-child(4)::before {
+    content: "店頭相場";
+  }
+
+  td:nth-child(5)::before {
+    content: "買取目安";
+  }
+
+  td:nth-child(6)::before {
+    content: "粗利率";
+  }
+
+  td:nth-child(7)::before {
+    content: "確認";
+  }
+
+  .detail-card h2 {
+    font-size: 22px;
+  }
+
+  .history-head {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .history-head div {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }
 
